@@ -1,9 +1,13 @@
 package com.example.badger.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 
 @Entity
 @Table(name = "note")
+@Builder
+@Data
 public class Note {
 
     @Id
@@ -16,31 +20,7 @@ public class Note {
     @Column(nullable = false, length = 2048)
     private String content;
 
-    public Note(){
-
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinColumn(name = "created_by_user_id", referencedColumnName = "id", nullable = false)
+    private User createdBy;
 }
